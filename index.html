@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#044e3b">
+  <meta name="description" content="REFri — refresque seu momento. Descubra sabores leves, vibrantes e cheios de personalidade.">
+  <title>REFri — Refresque seu momento</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Galada&family=Inter:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="bubbles-container" aria-hidden="true"></div>
+  <header class="header">
+    <a class="logo contact-link" href="#" aria-label="REFri início"><span class="logo-mark">R</span><span>REFri</span></a>
+    <nav class="nav glass" aria-label="Navegação principal">
+      <a class="nav-item active" href="#inicio">Início</a>
+      <a class="nav-item" href="#sabores">Sabores</a>
+      <a class="nav-item" href="mailto:contato@refri.com.br">Contato</a>
+    </nav>
+    <a class="contact-btn contact-link" href="mailto:contato@refri.com.br">Fale conosco ↗</a>
+  </header>
+
+  <main id="inicio" class="hero">
+    <div class="hero-content">
+      <section class="hero-left">
+        <div class="hero-copy">
+          <p class="hero-kicker">Leveza em cada gole</p>
+          <h1 class="main-title">Refresque<br><span class="outline">seu dia.</span></h1>
+          <p class="description">Uma explosão de frescor, cor e sabor para transformar os pequenos momentos em grandes experiências.</p>
+          <a class="primary-btn" href="#sabores"><span>Descubra os sabores</span><span class="plus-icon">+</span></a>
+        </div>
+        <div class="award-badge">
+          <div class="award-icon" aria-hidden="true">✦</div>
+          <div class="award-text"><span class="award-title">SENSAÇÃO REFRESCANTE</span><span class="award-subtitle">Seu momento, seu sabor.</span></div>
+        </div>
+      </section>
+
+      <div class="hero-center" aria-hidden="true">
+        <div class="main-product-3d">
+          <div class="bottle-scene">
+            <span class="floating-fruit fruit-one" id="fruitOne">🍋</span>
+            <span class="floating-fruit fruit-two" id="fruitTwo">🍃</span>
+            <span class="floating-fruit fruit-three">✦</span>
+            <div class="bottle" id="heroBottle" style="--bottle-color:#b8e5c7">
+              <div class="bottle-label"><strong>REFri</strong><span id="bottleFlavor">LIMÃO • FRESH</span></div>
+            </div>
+            <span class="bottle-flavor">NATURAL VIBE · 350 ML</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="hero-right" id="sabores">
+        <div class="product-carousel">
+          <div>
+            <p class="hero-kicker">Escolha sua vibe</p>
+            <h2 class="side-title" id="flavorTitle">Fresh<br>Energy.</h2>
+          </div>
+          <div class="carousel-cards" role="group" aria-label="Selecione um sabor">
+            <button class="card active" type="button" data-flavor="limão" aria-pressed="true">
+              <span class="mini-bottle" style="--mini-color:#b8e5c7" aria-hidden="true"></span>
+              <span class="card-info"><span>Limão</span><span>Fresh & leve</span></span>
+            </button>
+            <button class="card" type="button" data-flavor="frutas" aria-pressed="false">
+              <span class="mini-bottle" style="--mini-color:#e9a0b4" aria-hidden="true"></span>
+              <span class="card-info"><span>Frutas vermelhas</span><span>Doce equilíbrio</span></span>
+            </button>
+            <button class="card" type="button" data-flavor="tropical" aria-pressed="false">
+              <span class="mini-bottle" style="--mini-color:#f4c66e" aria-hidden="true"></span>
+              <span class="card-info"><span>Tropical</span><span>Sol & energia</span></span>
+            </button>
+          </div>
+          <div class="carousel-nav">
+            <button class="nav-arrow" type="button" id="prevFlavor" aria-label="Sabor anterior">←</button>
+            <button class="nav-arrow" type="button" id="nextFlavor" aria-label="Próximo sabor">→</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const flavors = [
+      { key: 'limão', title: 'Fresh<br>Energy.', color: '#b8e5c7', label: 'LIMÃO • FRESH', fruit: '🍋', leaf: '🍃', theme: 'green' },
+      { key: 'frutas', title: 'Berry<br>Bliss.', color: '#e9a0b4', label: 'FRUTAS • BERRY', fruit: '🍓', leaf: '🫐', theme: 'blue' },
+      { key: 'tropical', title: 'Tropical<br>Wave.', color: '#f4c66e', label: 'TROPICAL • SUN', fruit: '🍊', leaf: '🌿', theme: 'green' }
+    ];
+    let current = 0;
+    const cards = [...document.querySelectorAll('.card')];
+    function selectFlavor(index) {
+      current = (index + flavors.length) % flavors.length;
+      const item = flavors[current];
+      document.getElementById('flavorTitle').innerHTML = item.title;
+      document.getElementById('heroBottle').style.setProperty('--bottle-color', item.color);
+      document.getElementById('bottleFlavor').textContent = item.label;
+      document.getElementById('fruitOne').textContent = item.fruit;
+      document.getElementById('fruitTwo').textContent = item.leaf;
+      document.body.classList.toggle('blue-theme', item.theme === 'blue');
+      cards.forEach((card, i) => {
+        const active = i === current;
+        card.classList.toggle('active', active);
+        card.setAttribute('aria-pressed', String(active));
+      });
+    }
+    cards.forEach((card, i) => card.addEventListener('click', () => selectFlavor(i)));
+    document.getElementById('prevFlavor').addEventListener('click', () => selectFlavor(current - 1));
+    document.getElementById('nextFlavor').addEventListener('click', () => selectFlavor(current + 1));
+  </script>
+</body>
+</html>
